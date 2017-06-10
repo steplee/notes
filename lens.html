@@ -1,0 +1,58 @@
+<h1 id="lens">Lens</h1>
+<p><img src="lens%20picture" alt="http://i.imgur.com/ALlbPRa.png" /></p>
+<h1 id="httpswww.youtube.comwatchvcefnmjtaolyfeatureyoutu.behd1"><a href="ed%20kmett">https://www.youtube.com/watch?v=cefnmjtAolY&amp;feature=youtu.be&amp;hd=1</a></h1>
+<h1 id="httpsgithub.comekmettlens"><a href="readme">https://github.com/ekmett/lens</a></h1>
+<h1 id="httpcomonad.comreader2012mirrored-lenses"><a href="comonad%20reader">http://comonad.com/reader/2012/mirrored-lenses/</a></h1>
+<h2 id="s-t-a-b">s t a b</h2>
+<p>s : initial full type<br />
+t : result full type<br />
+a : result local type<br />
+b : initial local type</p>
+<h2 id="from-hackage">From Hackage</h2>
+<p>Every Lens is a valid Setter.</p>
+<p>Every Lens can be used for Getting like a Fold that doesn't use the Applicative or Gettable.</p>
+<p>Every Lens is a valid Traversal that only uses the Functor part of the Applicative it is supplied.</p>
+<p>Every Lens can be used for Getting like a valid Getter, since Functor is a superclass of Gettable.</p>
+<p>Since every Lens can be used for Getting like a valid Getter it follows that it must view exactly one element in the structure.</p>
+<p>The Lens laws follow from this property and the desire for it to act like a Traversable when used as a Traversal.</p>
+<h3 id="laws">Laws</h3>
+<p>1) You get back what you put in:<br />
+<code>view l (set l b a)  ≡ b</code></p>
+<p>2) Putting back what you got doesn't change anything:<br />
+<code>set l (view l a) a  ≡ a</code></p>
+<p>3) Setting twice is the same as setting once:<br />
+<code>set l c (set l b a) ≡ set l c a</code></p>
+<h2 id="section"></h2>
+<p>(.) is compositon of lenses</p>
+<p>set = .~</p>
+<pre><code>_1 .~ &quot;hello&quot; $ ((),&quot;world&quot;)
+(&quot;hello&quot;,&quot;world&quot;)
+  where
+    (.~)  :: ASetter s t a b -&gt; b -&gt; s -&gt; t
+    -- notice: .~ does not access the &#39;a&#39; type
+    -- Takes a setter -&gt; result -&gt; function -&gt; result</code></pre>
+<p>view = ^.</p>
+<pre><code>(^.) :: s -&gt; Getting a s a -&gt; a
+-- notice Getting has no reference to t or b since they are for writing</code></pre>
+<p>You can make a Getter out of a pure function with to.</p>
+<pre><code>&quot;hello&quot;^.to length
+  where
+    to :: (Prelude.Functor f, Contravariant f, Profunctor p) =&gt;
+          (s -&gt; a) -&gt; Optic&#39; p f s a</code></pre>
+<p>Recall contravariant:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Contravariant</span> (<span class="ot">f ::</span> <span class="fu">*</span> <span class="ot">-&gt;</span> <span class="fu">*</span>) <span class="kw">where</span>
+<span class="ot">  contramap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f a
+<span class="ot">  (&gt;$) ::</span> b <span class="ot">-&gt;</span> f b <span class="ot">-&gt;</span> f a</code></pre></div>
+<p>And covariant is a normal functor.</p>
+<p>Recall a profunctor is covariant in first, contra in second:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Profunctor</span> (<span class="ot">p ::</span> <span class="fu">*</span> <span class="ot">-&gt;</span> <span class="fu">*</span> <span class="ot">-&gt;</span> <span class="fu">*</span>) <span class="kw">where</span>
+<span class="ot">  dimap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (c <span class="ot">-&gt;</span> d) <span class="ot">-&gt;</span> p b c <span class="ot">-&gt;</span> p a d
+<span class="ot">  lmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> p b c <span class="ot">-&gt;</span> p a c
+<span class="ot">  rmap ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> p a b <span class="ot">-&gt;</span> p a c</code></pre></div>
+<p>todo: read up on negative position vs positive position. I heard on a podcast it is related not to what I assumed, it actually relates to the logical definition of implication: 'a -&gt; v = ~a v b'</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">  (&amp;)   ::</span> a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b
+
+<span class="ot">  each  ::</span> (<span class="dt">Applicative</span> f, <span class="dt">Each</span> s t a b)
+        <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> f b) <span class="ot">-&gt;</span> s <span class="ot">-&gt;</span> f t
+
+<span class="ot">  (&amp;~)  ::</span> s <span class="ot">-&gt;</span> <span class="dt">State</span> s a <span class="ot">-&gt;</span> s</code></pre></div>
