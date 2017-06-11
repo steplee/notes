@@ -74,7 +74,7 @@ class Contravariant (f :: * -> *) where
 ```
 And covariant is a normal functor.
 
-Recall a profunctor is covariant in first, contra in second:
+Recall a profunctor is covariant in *second*, contra in *first*:
 ```Haskell
 class Profunctor (p :: * -> * -> *) where
   dimap :: (a -> b) -> (c -> d) -> p b c -> p a d
