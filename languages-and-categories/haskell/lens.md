@@ -1,9 +1,9 @@
 # Lens
 
-![http://i.imgur.com/ALlbPRa.png](lens picture)
-#[https://www.youtube.com/watch?v=cefnmjtAolY&feature=youtu.be&hd=1](ed kmett)
-#[https://github.com/ekmett/lens](readme)
-#[http://comonad.com/reader/2012/mirrored-lenses/](comonad reader)
+![lens picture](http://i.imgur.com/ALlbPRa.png)
+#[ed kmett](https://www.youtube.com/watch?v=cefnmjtAolY&feature=youtu.be&hd=1)
+#[readme](https://github.com/ekmett/lens)
+#[comonad reader](http://comonad.com/reader/2012/mirrored-lenses/)
 
 ## s t a b
 

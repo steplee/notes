@@ -1,4 +1,4 @@
 
-See [https://jtobin.io/simple-probabilistic-programming](jtobin's blog post series)
+See [jtobin's blog post series](https://jtobin.io/simple-probabilistic-programming)
 
 

@@ -1,7 +1,7 @@
 # Tree Decompositions
 
 ## Centroid Decomposition
-See [https://www.youtube.com/watch?v=3pk02p1-weU](this Algorithms Live video)
+See [this Algorithms Live video](https://www.youtube.com/watch?v=3pk02p1-weU)
 
 - A tree *centroid* is a node that, when removed, maximizes the remaining two components
   - It/they must be either the **single center** or **two middle nodes**.

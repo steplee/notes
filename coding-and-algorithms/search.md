@@ -1,7 +1,7 @@
 # Search
 ## 2D Binary Search
-[http://www.cs.utexas.edu/users/EWD/ewd09xx/EWD934.PDF](Dijkstra on Saddleback Search)
-[https://c51ed804-a-62cb3a1a-s-sites.googlegroups.com/site/algoxy/home/elementary-algorithms.pdf?attachauth=ANoY7cr5mK_QBMyPlXchjHeEcUyCzpNSLd3afw_M3hmRcfB6iI7hskPuiPcmoNXsfwk3TnZyp2aF0bIA9qbZo0sWmxWECzV5pp0b1g9irROSWzdboiV3AsaIm-7Erl6IdyLEmlF82vxdWWslL32PUeAP-6f-PlHhQQBE1EuC-NtmPVC2Q1OcPlcuSXjnxMQ6ezANSKh78OsmxsmDrSnCqXKGqMTnqNC0-MuQHm5EWKishDS3pR0LcPc%3D&attredirects=0](Book)
+[Dijkstra on Saddleback Search](http://www.cs.utexas.edu/users/EWD/ewd09xx/EWD934.PDF)
+[Book](https://c51ed804-a-62cb3a1a-s-sites.googlegroups.com/site/algoxy/home/elementary-algorithms.pdf?attachauth=ANoY7cr5mK_QBMyPlXchjHeEcUyCzpNSLd3afw_M3hmRcfB6iI7hskPuiPcmoNXsfwk3TnZyp2aF0bIA9qbZo0sWmxWECzV5pp0b1g9irROSWzdboiV3AsaIm-7Erl6IdyLEmlF82vxdWWslL32PUeAP-6f-PlHhQQBE1EuC-NtmPVC2Q1OcPlcuSXjnxMQ6ezANSKh78OsmxsmDrSnCqXKGqMTnqNC0-MuQHm5EWKishDS3pR0LcPc%3D&attredirects=0)
 
 Given sorted 2D array.
 Given strictly increasing f( x,y )
