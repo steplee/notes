@@ -6,8 +6,8 @@
 		* Monika R. Henzinger and Valerie King. Randomized fully dynamic graph algorithms with polylogarithmic time per operation
 		* Monika R. Henzinger, Satish Rao, and Harold N. Gabow. Computing vertex connectivity: New bounds from old techniques
 
-	* [https://www.cs.cmu.edu/~sleator/papers/another-persistence.pdf](Persistent (Tarjan))
+	* [Persistent (Tarjan)](https://www.cs.cmu.edu/~sleator/papers/another-persistence.pdf)
 
 	* Elementary Algorithms book. Good reference
 
-	* [http://digital.cs.usu.edu/~allan/DS/Notes/Ch22.pdf](Splay Trees)
+	* [Splay Trees](http://digital.cs.usu.edu/~allan/DS/Notes/Ch22.pdf)

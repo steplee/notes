@@ -1,8 +1,8 @@
 # Profunctors
 
 Sources:
-  - [http://blog.sigfpe.com/2011/07/profunctors-in-haskell.html](Piponi)
-  - [https://www.youtube.com/watch?v=OJtGECfksds&t=4989s](Freeman)
+  - [Piponi](http://blog.sigfpe.com/2011/07/profunctors-in-haskell.html)
+  - [Freeman](https://www.youtube.com/watch?v=OJtGECfksds&t=4989s)
   - Hackage
 
 

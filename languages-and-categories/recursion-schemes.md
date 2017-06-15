@@ -1,10 +1,11 @@
 # Recursion Schemes
 
 See:
-  - [https://medium.com/@jaredtobin/practical-recursion-schemes-c10648ec1c29](jtobin's blog post series)
+  - [jtobin's blog post series](https://medium.com/@jaredtobin/practical-recursion-schemes-c10648ec1c29)
   - Banana's and Barbed Wires
   - [https://github.com/ekmett/recursion-schemes/](ekmett's recursion schemes library)
   - [http://blog.sumtypeofway.com/an-introduction-to-recursion-schemes/](a blog post)
+  - [ekmett's recursion schemes library](https://github.com/ekmett/recursion-schemes/)
 
 ## jtobin's exposition
   - Factor out recursion
