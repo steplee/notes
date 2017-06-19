@@ -1,20 +1,19 @@
 # Belief Propagtion
+The paper by Wainright and Jordan (highlighted, in my drive) is the best resource.
 
 ## Vanilla BP
 
-Exact Inference on trees.
+Exact Inference on **trees only**.
 'Non-Serial' Dynamic Programming on trees.
 The essential message-passing algorithm in machine learning.
 Heavily tied to many other algorithms, BP is in a sense the unified algorithm for many others:
   * Forward-Backward (for HMMs)
   * Sum-Product
   * Junction Tree (when a tree)
-  * Kalman Filter
+  * Kalman Filter (when gaussian)
   * ...
 
-Is a local -> global algorithm:
-
-Two phases:
+Is a local -> global algorithm with 2 phases:
   1) Bottom Up:
       Starting at leaves propagate 'evidence' upward.
       A parent will take a SUM of states over the PRODUCT of belief messages from children.
@@ -26,6 +25,25 @@ Two phases:
   2) Top Down:
       Propagate info from parents to children after accumulating evidence from them in the bottom up stage.
       Children will ...
+
+## Relation to Exponential Families and GLMs
+
+```
+GLM:
+      x
+       \
+         <wx, theta >  ---- link [g] ---- eta ---- ?
+       /
+      w
+```
+**Foward = BottomUp:**  mean      -> canonical
+**Backward = TopDown:** canonical -> mean
+
+### Convexity
+
+
+
+
 
 ## Junction Tree
 

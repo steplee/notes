@@ -1,0 +1,101 @@
+<h1 id="recursion-schemes">Recursion Schemes</h1>
+<p>See:</p>
+<ul>
+<li><a href="https://medium.com/@jaredtobin/practical-recursion-schemes-c10648ec1c29">jtobin's blog post series</a></li>
+<li>Banana's and Barbed Wires</li>
+<li><a href="ekmett&#39;s%20recursion%20schemes%20library">https://github.com/ekmett/recursion-schemes/</a></li>
+<li><a href="a%20blog%20post">http://blog.sumtypeofway.com/an-introduction-to-recursion-schemes/</a></li>
+<li><a href="https://github.com/ekmett/recursion-schemes/">ekmett's recursion schemes library</a></li>
+</ul>
+<h2 id="jtobins-exposition">jtobin's exposition</h2>
+<ul>
+<li>Factor out recursion
+<ul>
+<li>Pattern Functors</li>
+<li>Fixed Points</li>
+</ul></li>
+<li>Foldable, Unfoldable, and Base</li>
+</ul>
+<p>From a fully-qualified recursive type (e.g. data Natural = Z | S Natural) we can create a new, parameterized type with the parameter replacing <em>all recursive calls</em> in the original type.<br />
+The new type must be functorial in the added parameter, so it is said to be a <strong>pattern functor</strong></p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">x <span class="fu">=</span> <span class="dv">5</span><span class="ot"> ::</span> <span class="dt">Int</span></code></pre></div>
+<h2 id="sumtypeofway-post-1">sumtypeofway post 1</h2>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span>   <span class="dt">Term</span> f  <span class="fu">=</span> <span class="dt">In</span> (f (<span class="dt">Term</span> f))
+<span class="ot">out ::</span> <span class="dt">Term</span> f <span class="ot">-&gt;</span>       (<span class="dt">Term</span> f)
+out    (<span class="dt">In</span> t)  <span class="fu">=</span> t
+
+<span class="dt">Term</span> <span class="dt">Expr</span> <span class="fu">=</span> <span class="dt">In</span> <span class="fu">$</span> <span class="dt">Expr</span> <span class="fu">$</span> <span class="dt">Term</span> <span class="dt">Expr</span>
+<span class="ot">out_f ::</span> <span class="dt">Term</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">Expr</span> (<span class="dt">Term</span> <span class="dt">Expr</span>)</code></pre></div>
+<p>Allows unwrapping of Term Expr -&gt; <strong>arbitarirly nested</strong> (Term Expr)s<br />
+Defining recursive types using fixed-points of functors : <strong>codata</strong></p>
+<h3 id="generic-traversals">Generic Traversals</h3>
+<h4 id="bottom-up">Bottom Up</h4>
+<p>To traverse a Term bottom-up with a function ƒ:</p>
+<ol>
+<li>Unpack the term so as to access its children. out</li>
+<li>Recursively traverse each child of the unpacked term with ƒ. f</li>
+<li>Repack the term. In</li>
+<li>Apply ƒ to it. f (In ...)</li>
+</ol>
+<p>Using (&gt;&gt;&gt;) is more helpful to the intuition here then (.)<br />
+<code>f &gt;&gt;&gt; g x   =   g $ f x</code></p>
+<p><em>Unpack, recurse, repack, apply</em><br />
+<code>bottom_up fn = out &gt;&gt;&gt; fmap &gt;&gt;&gt; In &gt;&gt;&gt; fn</code></p>
+<p>Flatten example</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">flattenTerm ::</span> <span class="dt">Term</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">Term</span> <span class="dt">Expr</span>  
+flattenTerm (<span class="dt">In</span> (<span class="dt">Paren</span> e)) <span class="fu">=</span> e  <span class="co">-- remove all Parens  </span>
+flattenTerm other <span class="fu">=</span> other       <span class="co">-- do nothing otherwise</span>
+
+<span class="ot">flatten ::</span> <span class="dt">Term</span> <span class="dt">Expr</span> <span class="ot">-&gt;</span> <span class="dt">Term</span> <span class="dt">Expr</span>  
+flatten <span class="fu">=</span> bottomUp flattenTerm</code></pre></div>
+<h4 id="top-down">Top Down</h4>
+<pre><code>To traverse a Term top-down with a function ƒ:
+  1. Apply ƒ to the term.
+  2. Unpack the term so as to access its children.
+  3. Recursively traverse each child of the term with ƒ.
+  4. Repack the term.</code></pre>
+<p><em>apply, unpack, recurse, repack</em></p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">topDown,<span class="ot"> bottomUp ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (<span class="dt">Term</span> f <span class="ot">-&gt;</span> <span class="dt">Term</span> f) <span class="ot">-&gt;</span> <span class="dt">Term</span> f <span class="ot">-&gt;</span> <span class="dt">Term</span> f
+
+topDown  f <span class="fu">=</span> <span class="dt">In</span>  <span class="fu">&lt;&lt;&lt;</span> fmap ( topDown f) <span class="fu">&lt;&lt;&lt;</span> out <span class="fu">&lt;&lt;&lt;</span> f 
+bottomUp f <span class="fu">=</span> out <span class="fu">&gt;&gt;&gt;</span> fmap (bottomUp f) <span class="fu">&gt;&gt;&gt;</span> <span class="dt">In</span>  <span class="fu">&gt;&gt;&gt;</span> f</code></pre></div>
+<p>Actual <strong>duals</strong></p>
+<h2 id="sumtypeofway-post-2">sumtypeofway post 2</h2>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mystery ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (f a <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> <span class="dt">Term</span> f <span class="ot">-&gt;</span> a
+mystery fn <span class="fu">=</span>  
+  out                   <span class="co">-- 1) unpack the Term</span>
+  <span class="fu">&gt;&gt;&gt;</span> fmap (mystery fn) <span class="co">-- 2) recursively apply `fn`</span>
+  <span class="fu">&gt;&gt;&gt;</span> fn                <span class="co">-- 3) apply `fn`</span>
+
+<span class="ot">countNodes ::</span> <span class="dt">Expr</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+countNodes (<span class="dt">Literal</span> _) <span class="fu">=</span> <span class="dv">1</span> 
+   <span class="fu">...</span>
+
+<span class="kw">type</span> <span class="dt">Algebra</span> f a <span class="fu">=</span> f a <span class="ot">-&gt;</span> a
+<span class="ot">countNodes ::</span> <span class="dt">Algebra</span> <span class="dt">Expr</span> <span class="dt">Int</span>
+<span class="ot">mystery ::</span> (<span class="dt">Functor</span> f) <span class="ot">=&gt;</span> <span class="dt">Algebra</span> f a <span class="ot">-&gt;</span> <span class="dt">Term</span> f <span class="ot">-&gt;</span> a</code></pre></div>
+<p>The name 'Algebra' comes from <em>unify</em>, it is like we are <strong>unifying a <code>f a</code> <em>back</em> to <code>a</code>.</strong></p>
+<ul>
+<li>So <code>a</code> usually has some monoidal/collapsable structure?</li>
+</ul>
+<h4 id="catamorphisms">Catamorphisms</h4>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- mystery is cata, the generalized `fold` operation</span>
+<span class="ot">cata ::</span> (<span class="dt">Functor</span> f) <span class="ot">=&gt;</span> <span class="dt">Algebra</span> f a <span class="ot">-&gt;</span> <span class="dt">Term</span> f <span class="ot">-&gt;</span> a  
+cata f <span class="fu">=</span> out <span class="fu">&gt;&gt;&gt;</span> fmap (cata f) <span class="fu">&gt;&gt;&gt;</span> f</code></pre></div>
+<p>Bottom-up is like a catamorphism that rebuilds then entire tree after applying the function.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">bottomUp f <span class="fu">=</span> cata (<span class="dt">In</span> <span class="fu">&gt;&gt;&gt;</span> f)</code></pre></div>
+<h4 id="anamorphisms">Anamorphisms</h4>
+<p>An <code>unfold</code>.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">what ::</span> (<span class="dt">Functor</span> f) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> f a) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Term</span> f
+what f <span class="fu">=</span> <span class="dt">In</span>  <span class="fu">&lt;&lt;&lt;</span> fmap (what f) <span class="fu">&lt;&lt;&lt;</span> f
+cata f <span class="fu">=</span> out <span class="fu">&gt;&gt;&gt;</span> fmap (cata f) <span class="fu">&gt;&gt;&gt;</span> f
+
+<span class="kw">type</span> <span class="dt">Algebra</span>   f a <span class="fu">=</span> f a <span class="ot">-&gt;</span> a
+<span class="kw">type</span> <span class="dt">Coalgebra</span> f a <span class="fu">=</span> a   <span class="ot">-&gt;</span> f a
+<span class="kw">type</span> <span class="dt">Coalgebra</span> f a <span class="fu">=</span> f a <span class="ot">&lt;-</span> a
+
+<span class="ot">ana ::</span> <span class="dt">Coalgebra</span> f a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Term</span> f
+ana f <span class="fu">=</span> <span class="dt">In</span> <span class="fu">&lt;&lt;&lt;</span> fmap (ana f) <span class="fu">&lt;&lt;&lt;</span> f</code></pre></div>
+<p>If algebras are reunions, coalgebras are <strong>disassembly and dispersion.</strong><br />
+&quot;We are taking one established <code>a</code> and stuffing it inside a context <code>f</code>.</p>
+<h2 id="sumtypeofway-post-3">sumtypeofway post 3</h2>
