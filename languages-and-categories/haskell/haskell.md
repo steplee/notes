@@ -17,3 +17,7 @@
 
   - Use zipWith with first arg as an inifnite list of functions and second argument as finite list
     - From diagrams: zipWith (repeat (circle 1)) [1,4,7]
+```
+    sequence [[1,2,3],[10,20,30]]
+    -- [[1,10],[1,20],[1,30],[2,10],[2,20],[2,30],[3,10],[3,20],[3,30]]
+```

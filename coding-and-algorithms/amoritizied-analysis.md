@@ -1,7 +1,7 @@
 # Amoritized Analysis
 ## CLRS (Chap. 17)
 
-Bound $\sum a_i$ by $\sum t_i}$ where $a_i$ is amoritized cost and $t_i$ is real cost. 
+Bound $\sum a_i$ by $\sum t_i$ where $a_i$ is amoritized cost and $t_i$ is real cost.
 Costs only considered in sequences.
 Prove bounds on average running-time *of* the worst case, **not** the average case.
 
@@ -19,9 +19,8 @@ Prove bounds on average running-time *of* the worst case, **not** the average ca
 		- "charging push operation a little bit more, we can charge pop nothing"
 		- there is always a positive number of credit since pushing adds one dollar.
 ### Physicist / Potential
-	- 
+	-
 ### Dynamic Tables
 
 
 ## Okasaki
-
