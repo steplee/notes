@@ -3,6 +3,17 @@ I need to study up some C++11/14/17 features.
 
   - Use emplace_back instead of push_back. You can put parameters *directly* in the call! And it's faster, push_back must do a rvalue move (i.e. not a copy, but still a tad slower).
 
+## General STL stuff
+[Link](http://www.sgi.com/tech/stl/table_of_contents.html)
+  - `iota` assigns increasing values to a range. Mutates
+  - Use `copy` with `ostream_iterator` instead of looping over a vector to print: `copy(A, A + N, ostream_iterator<int>(cout, " "));`
+  - `partition` puts all things that satisfy a predicate left of things that do not (think quicksort's partition)
+```partition(A, A + N,
+          compose1(bind2nd(equal_to<int>(), 0),
+                   bind2nd(modulus<int>(), 2))); // first do mod2 then equal_to. So expression is i%2==0
+```
+  - `inner_product`
+
 ## Polymorphism
 - Subtype polymorphism is also known as runtime polymorphism.
         - The resolution of polymorphic function calls happens at runtime through an indirection via the virtual table.
