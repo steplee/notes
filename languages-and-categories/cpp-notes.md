@@ -1,11 +1,10 @@
 # C++
 I need to study up some C++11/14/17 features.
 
-  - Use emplace_back instead of push_back. You can put parameters *directly* in the call! And it's faster, push_back must do a rvalue move (i.e. not a copy, but still a tad slower).
-
 ## General STL stuff
 [Link](http://www.sgi.com/tech/stl/table_of_contents.html)
-  - `iota` assigns increasing values to a range. Mutates
+  - Use emplace_back instead of push_back. You can put parameters *directly* in the call! And it's faster, push_back must do a rvalue move (i.e. not a copy, but still a tad slower).
+  - `iota` assigns increasing values to a range. Mutates.
   - Use `copy` with `ostream_iterator` instead of looping over a vector to print: `copy(A, A + N, ostream_iterator<int>(cout, " "));`
   - `partition` puts all things that satisfy a predicate left of things that do not (think quicksort's partition)
 ```partition(A, A + N,
@@ -13,6 +12,7 @@ I need to study up some C++11/14/17 features.
                    bind2nd(modulus<int>(), 2))); // first do mod2 then equal_to. So expression is i%2==0
 ```
   - `inner_product`
+  - `next_permutation`
 
 ## Polymorphism
 - Subtype polymorphism is also known as runtime polymorphism.
@@ -67,11 +67,11 @@ template<class Lhs, class Rhs>
 [Link](http://en.cppreference.com/w/cpp/language/value_initialization)
 [Link 2](http://cpptruths.blogspot.com/)
 
-### Functional CPP
+#### Functional CPP
 [Link](https://functionalcpp.wordpress.com/)
 
 [C++ Template metaprogramming is turing complete, see this for factorial example](https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Metafunction)
-##### Specialization
+#### Specialization
 ```
 template<typename T> struct is_void : std::false_type { ... } // normal template instantiaztion
 template<> struct is_void<void> : std::true_type      { ... } // specialized
@@ -84,8 +84,8 @@ Questions I have:
           - decltype allows you to get the type of another variable at compile-time, e.g. `decltype(foo)` would have whatever type foo does.
           - You can define a function `auto` and use decltype for return type, but the compiler can't determine type until after body, so use `auto (..a..b) {} -> decltype(a+b)`
   - Read up on templates and there representation as instantiated code.
-  - Read some stuff on the ABI and calling conventions.
-  - Read up on libstd's threading model
+  - **Read some stuff on the ABI and calling conventions.**
+  - **Read up on libstd's threading model**
   - What are disadvantages of a header only library, besides repetead compilation?
   - Are 'concepts' coming in C++17?
   - what does 'explicit' do?
@@ -95,7 +95,7 @@ Questions I have:
   - I see some code with a templated struct with no memebers but only a typedef?
   - How does boost::variant work.
   - Tagged unions.
-  - 'constexpr'
+  - 'constexpr': how the compiler handles it
   - move semantics
   - how auto works (hindley-milner?)
   - std::tie
@@ -107,7 +107,7 @@ C++ 17:
   - std::variant
     -
   - if constexpr(expression)
-          - Essentially allows compile-time branching.o
+          - Essentially allows compile-time branching.
   - `if` and `switch` and contain variable initilization
   - more copy ellision
 
