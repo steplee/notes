@@ -58,5 +58,5 @@ Apply a subst will remove the variable from the set of free vars.
 It appears there is double of everything -- one for variables as you'd expect, **and another for types**. Type variables behave a lot like value variables. We can query, subst them.
 Diehl implements Substitutions via a map, and abstracts via a typeclass. Scheme, List, and TypeEnv are instances.
 
-two expressions unifiable if [s]e = [s]e'
+two expressions e,e' unifiable if [s]e = [s]e'
 s is the 'unifier'
