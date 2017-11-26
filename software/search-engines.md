@@ -1,4 +1,23 @@
 # Search
+## 2.
+Type vs. Token: type is like equiv. class of tokens
+Gist: NL is messy
+Stemming (approximate) vs. Lemmatization (complete vocab.) vs. Lemmatizer (NLP/morphological apprx.). Unfortunately, normalization helps some queries but hurts others, all-in-all it's unpredictable on performance.
+
+### 2.3 Postings list intersection via skip pointers
+Recall postings lists are sorted by terms, so we can use a skip list to do sub-linear intersection of two lists.
+A good skip scheme is to have sqrt(length) equally space skip nodes, **not** the classic hierarchical approach.
+
+### 2.4 Supporting phrase searches, i.e. "<term>" searches
+##### Biword indices
+Simple: Store bigrams and do a search for all phrase terms, overlapping with eachother.
+You could then create a __biword index__
+Better: do POS tagging and allow treat words like 'of', 'the', etc. as extended biwords.
+Better: extend to longer sequences => __phrase index__
+##### Positional indices
+For each term, store postings of form `docID: <pos1, pos2, ...>` and record frequencies.
+(41)
+
 ## [4. Index Construction](https://nlp.stanford.edu/IR-book/pdf/04const.pdf)
 ##### Blocked sort-based indexing
 1. Read+parse as many documents into memory as possible into termID-docID pairs
