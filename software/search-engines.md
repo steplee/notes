@@ -1,4 +1,14 @@
 # Search
+## 1.
+See Figure 1.4 for process of building an index.
+	1. Emit <docID,termID> pairs
+	2. Sort by termID.
+	3. Merge all duplicate terms. Merge their docIDs into a __sorted__ list (called the **postings list**).
+	4. You end up with a sorted map from termID to a list of sorted docIDs.
+
+Boolean Queries are then easy: search for all terms and intersect their positings lists.
+
+
 ## 2.
 Type vs. Token: type is like equiv. class of tokens
 Gist: NL is messy
@@ -15,8 +25,20 @@ You could then create a __biword index__
 Better: do POS tagging and allow treat words like 'of', 'the', etc. as extended biwords.
 Better: extend to longer sequences => __phrase index__
 ##### Positional indices
-For each term, store postings of form `docID: <pos1, pos2, ...>` and record frequencies.
+**For each term, store postings of form `docID: <pos1, pos2, ...>`, recording frequencies and word-order-offsets.**
 (41)
+
+## 3. Dictionaries And tolerant retrieval
+Boolean search is not good enough.
+### 3.1 Search Structures
+First task: for each query word, is it in the vocab? If so return the postings list.
+
+Hashing vs B-Trees (less rebalancing then binary) ...
+
+Single wildcard search can be done by having two B-Trees: one for each word, one for its reverse. Intersect the subtree leading to the needed substring, e.g. `he*lo` intersect a search on `he-` and on `ol-` for the reverse tree.
+Multi wildcard search done by storing *permuterm index*, where a word plus terminator `$` and all `N` shifts of it are stored, wildcard search requires pre-step of rotation of `*` to beginning, partial search, then normal search.
+This approach can blow-up space.
+Better approach: store *k-grams* (of characters) and index these (i.e. k-grams point backwards to the words they appear in). At search time include each match of a k-gram search and concat the postings. But we should do a post-filtering step to remove terms that the k-gram search artificically introduced.
 
 ## [4. Index Construction](https://nlp.stanford.edu/IR-book/pdf/04const.pdf)
 ##### Blocked sort-based indexing
