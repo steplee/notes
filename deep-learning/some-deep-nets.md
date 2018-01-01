@@ -54,9 +54,9 @@ Uhhh... why?
 	- ResNet widening is more effective than deepening
 	- But deeper may be more efficent than shallower and wider
   - Deep nets w/ skip connections suffer from:
-  	1. Feature reuse: upper layers may not learn useful reps given lower layers
-	2. Widening is more effective then deepening after a certain depth
-	3. Actual depth =/= model depth: it might be determined by shortest path (taking skip paths)
+    1. Feature reuse: upper layers may not learn useful reps given lower layers
+    2. Widening is more effective then deepening after a certain depth
+    3. Actual depth =/= model depth: it might be determined by shortest path (taking skip paths)
   - DiracNets: try to avoid skip connections
 
 Like ResNet, parametrize weights as residual of Dirac function (but without skipcon). Convolving any input with Dirac => identity, so info propagates deep into network and alleviates vanishing grads.
