@@ -37,6 +37,6 @@ _*The elementary symmetric polynomials on the (max,+) semiring are the partial s
 ## Grobner Bases
 [Link](http://www.risc.jku.at/people/buchberg/papers/2001-02-19-A.pdf)
 
-> It is interesting to note that the Gröbner bases algorithm,
->	- for linear polynomials, specializes to Gauss’ algorithm, and
->	- for univariate polynomials, specializes to Euclid’s algorithm.
+> It is interesting to note that the Grobner bases algorithm,
+>	- for linear polynomials, specializes to Gauss algorithm, and
+>	- for univariate polynomials, specializes to Euclids algorithm.

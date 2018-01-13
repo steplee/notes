@@ -8,4 +8,14 @@
 Requires days of GPU training, hundreds of gigabytes of storage for features. Has slow test time as well (forward pass per class).
 
 #### New Architecture
-...
+
+
+## [Karpathy Thesis](http://cs.stanford.edu/people/karpathy/main.pdf)
+###### Generating Sentences from Images
+Past Methods:
+  - Detect objects and patch together n-grams.
+  - Extract `<object, action, scene>` pairs, form simple phrase.
+  - Map images and sentences to *meaning space*, find closest pairs.
+
+This Method:
+  - End-to-end

@@ -45,7 +45,7 @@ A general rule for any exp. family is also given. Also, SBP can be derived for a
 
 ##### 4. Scalable Inference in DLGMs
 denote $V$ for full dataset with `N x D` $v_n$ observations.
-> To perform inference in DLGMs we must integrate out the effect of any latent variables  this requires us to compute the integrated or marginal likelihood. In general, this will be an intractable integration and instead we optimise a lower bound on the marginal likelihood. We introduce an approximate posterior distribution q(·) and apply Jensens inequality following the variational principle 
+> To perform inference in DLGMs we must integrate out the effect of any latent variables  this requires us to compute the integrated or marginal likelihood. In general, this will be an intractable integration and instead we optimise a lower bound on the marginal likelihood. We introduce an approximate posterior distribution q(.) and apply Jensens inequality following the variational principle 
 
 (Math similar to AEVB paper follows)
 Again, two terms:

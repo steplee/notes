@@ -5,7 +5,7 @@
 RL as a whole:
 **Sensation -> Action -> Goal -> [Action]**
 
-**Policy**: State -> Action
+**Policy**: State -> Distribution over actions (representing prob of selecting each)
 Stimulus, response.
 Could be lookup table, neural net, search tree, etc.
 **Reward Signal** could be delayed to long time in future
@@ -30,9 +30,62 @@ Rather then using true mean as the expectation, weight recent values higher (*ex
 ## 3. Finite MDPs
 Must deal with **State-Action value function**
 
-`p(s', r | s, a)`
+### 3.5
+*Values* used for almost all RL to approximate expected return.
+The **State-Action** function `v_pi(s)` tells expected reward of being in state `s` under policy `pi`
+The **Action-Value** function `q_pi(s,a)` is value of being in state `s`, taking action `a`, and following `pi` from thereon. Note: we may not be acting in accordance with `pi` when taking the first action.
+The **Bellman equation** expresses a relations between the value of a state and it's sucessors. Essentially, the value of a state must be equal to the expected value of its successors states plus the reward along the way. The flow of information is an instance of a**backup operation**.
+It is a triple sum over action (pi(a|s)), next state, and next reward (p(s',r | s,a)).
+If linear (or known for each state), can be solved.
+You typically have too many states to keep track of in `v` and `q`, so they are substituted by parameterized functions (neural nets) and trained.
 
-#### Sources
+The value of an action depends on expected next reward and the expected sum of remaining rewards, but nothing else. **Note:** our value function is an expectation since we have only a probability that action `a` will result in state `s'`: `p(s',r | s,a)`
+
+If you have an optimal value function, you can greedily pick the next best-looking state (i.e. with a search depth of one)
+If you have an optimal action function, it is even easier since `q` essentially caches results and we would pick `argmax_a` from it.
+
+With a value function, you pick a 1-step state by assigning a value to each one *equal to the average of its children 2-step states (plus reward incurred)*.
+With an action function, the `max` is pushed into the expectation.
+
+
+## 4. Dynamic Programming
+  - For now, assume finite MDP (w/ discrete states)
+  - Use value functions to structure search for better policies.
+  - DP values filled in using Bellman eqn. as updates for approximations.
+  - **Policy Evaluation** is computing the state-value function `v_pi` for some policy `pi`.
+    - **Iterative Policy Evaluation** uses a policy successively and updates the value function. The approximation `v_k -> v_k+1` will converge to `v_pi`. This kind of update is called an **expected update**. Usually implemented by stopping when a the value function has not changed beyond some small number delta (i.e. has converged).
+
+### 4.2 Policy Improvement
+  - General note: **A policy precedes a value function. Also, we also consider a converged value function.**
+  - For now, think in terms of deterministic policies.
+  - How to know when to change our policy, assuming we have its value func?
+  - One way: use `q_pi(s, a)` to consider the value of taking an action `a` and thereafter following the old policy.
+  - **Policy Improvement Theorem**: If `q_pi(s, pi'(s)) >= v_pi(s)`, then `v_pi'(s) >= v_pi(s)`
+    - The consequent __only__ considers state `s`.
+    - If following `pi'` at state `s` and `pi` onward achieves better value than `pi` at `s`, then `pi'` is atleast better at all states reachable from `s`.
+    - What this all means is that if you do an off-policy lookahead, you should always take the best-looking state that maximizes your current value function (and modify your current policy), as it will always improve your reward and thus your value.
+    - This is the heart of the Bellman optimality eqn.
+    - These results carry over to the stochastic policy case.
+
+### 4.3 Policy Iteration
+  - Continually improve a base policy by recomputing the value function each time you improve.
+  - You will have a chain of monotonically improving polcies & value functions
+  - The chain is interleaving *policy evaluations* and *policy improvements*
+  - Each policy evaluation reuses the previous value function and modifies it.
+
+### 4.4 Value Iteration
+  - The policy evaluation step is usually lengthy, we want to avoid a full convergence each iteration.
+  - Doing one update per state at each iteration is called **Value Iteration**. Note: this still calls for doing an update *per state* in the global state set.
+  - VI is just turning the Bellman eqn into an update rule.
+  - 
+
+
+
+
+
+
+
+#### Other Sources
  [Karpathy's excellent post](http://karpathy.github.io/2016/05/31/rl)
 
 # TODO Read

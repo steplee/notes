@@ -64,6 +64,16 @@ You can place hard constraints on the model (constrained opt.) such as in Orthog
 	- Gradients w/ skipcons **decay sublinearly** (becoming in b/t brown and white noise) with rate $\frac{1, \sqrt{L}}$
 		- Brown Noise has more power at __low frequencies__
 		- White Noise has equal power at __all frequencies__
+
+  - Other papers propose skip connections (lack spurious local minima), (emulate ensembles of shallow nets), (break symmetries)
+#### Batch normalization does not only reduce covariate shift
+    * Neurons are active 50% time with or w/o batch norm, but with it they are *co-active* 1/4 of the time. Without batch norm, co-activity climbs with depth.
+    * Neurons w/o batch norm become very **bipolar with depth, either being on or off every input**. Batch-norm retains the 50/50 spread, making __the network more efficent__. But it comes at cost for ResNets: fields of receptions are stretched.
+
+#### Analysis
+  - Gradients in NNs are sums of **path-weights** over *active-paths*.
+  - Path-weights are to the variance inner product.
+To express gradients as linear combinations of path-weights is thus to express them over an orthogonal basis.  
   - ... finish ...
   
   - 'Looks Linear initialization'

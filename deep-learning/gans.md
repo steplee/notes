@@ -28,6 +28,23 @@ This paper proposes further tips:
   5. Use LeakyReLU in the discriminator
 
 
+## [EBGAN](https://arxiv.org/pdf/1609.03126.pdf)
+  - Use a GAN to train an EBM. Assign low energy to areas of high probability.
+  - The discriminator being an energy function allows a lot of models to use it.
+
+> The term contrastive sample is often used to refer to a data point causing an energy pull-up, such as the incorrect Y ’s in supervised learning and points from low data density regions in unsupervised learning.  
+
+  - The Discriminator is to be viewed as an energy function with no other probablisitc interpretation.
+  - EBGAN incorporates a hinge loss.
+  - ...
+
+
+
+## [InfoGAN](https://arxiv.org/pdf/1606.03657v1.pdf)
+This paper has a lot of interesting discussion about latent variables and coding.
+
+
+
 
 ## [Wasserstein GAN]()
 
@@ -48,7 +65,6 @@ Since GANs may capture just a subset of variation, **Minibatch Discrimination** 
 > Our simplified solution has neither learnable parameters nor new hyperparameters. We first compute the standard deviation for each feature in each spatial location over the minibatch. We then average these estimates over all features and spatial locations to arrive at a single value. We replicate the value and concatenate it to all spatial locations and over the minibatch, yielding one additional (constant) feature map. This layer could be inserted anywhere in the network, but we have found it best to insert it towards the end
 
 Batch Normalization to fix covariate shift may not be important, but they think it is needed for constraining magnitudes (the competition b/t networks increases magnitude greatly).
-
 
 
 ## [Cycle GAN]()
