@@ -145,36 +145,27 @@ With an action function, the `max` is pushed into the expectation.
     - **Weighted IS** is biased, but more stable. Sometimes **much** more stable in practice and has lower error in beginning of training.
 
 ### 5.6 Incremental Implementation
+On-policy incremental is straight-forward.
+Off-policy depends on ordinary/weighted IS.
+  - Ordinary IS: straight-forward
+  - Weighted IS: In addition to keeping returns `G_i` and weights per update `W_i`, also keep the cumulative weights per state `C_n` and when updating the value, use : `V_n+1 = V_n + W_n/C_n * (G_n - V_n)`
+
+### 5.7 Off-policy MC Control
 
 
+## 6. TD Learning
+TD methods are the best of DP & MC: they can update based on other learned estimates (DP) and they can learn from raw experience without a model (MC)
 
+### 6.1 TD Prediction (Policy Eval)
+Like MC, update estimate `V` for all states seen in an experience.
+MC waits for a return to use as a target in the update. TD updates immediately after acting, with a target $R_{t+1} + \rho*V(S_{t+1})$ (this is TD(0)). It *bootstraps* like DP.
+_MC assumes uncertaintity in the return, DP in the current policy_. **TD assumes uncertaintity in both.**
+The **TD error** is the target minus the current estimate, which is multiplied by the learning rate and used to update the value estimate, similar to a gradient in SGD.
 
-#### Other Sources
- [Karpathy's excellent post](http://karpathy.github.io/2016/05/31/rl)
+TD is like updating while the episode is in progress, MC can only do after the final reward is observed and episode over. The waiting in traffic example: you must change your estimate of how long it takes to get to work depending on traffic conditions (TD), you don't need to wait until you finally get there (MC).
 
-# TODO Read
-	- Cross entropy method
-	- TRPO, [here](https://arxiv.org/pdf/1502.05477.pdf)
-	- [Gradient Estimation Using Stochastic Computation Graphs](https://arxiv.org/pdf/1506.05254.pdf)
-	- [Building Machines that Think and Learn Like People](https://arxiv.org/abs/1604.00289)
+TD tends to learn faster then MC, both are sound mathematically.
 
-# Policy Gradients
-	- Play many games, update *all* actions in winning games as good, losing as bad
-		- _*Yes*_ this is inaccurate, but over the long run it should average out
-	- Very similar to SGD in supervised setting, its just that we don't have the loss immediately and so _all states must be saved until end of episdde_
-	- Different ways of applying updates & loss
-		1. Monolithic score at end of episode
-			- $\sum_i{A_i \ p(y_i | x_i)}$
-			- Note: _there is no temporal structure, but $p$ will condition on state $x_i$!_
-		2. Scores applied throughout
-### Modification of advantage/score
-	- Good to standardize, e.g. $\frac{x-{\mu}_x}{{\sigma}_x^2}$
-
-### Theory
-	- Special case of *score function gradient estimator*
-	- There is a trick where you multiply/divide by $p(x)$ after expanding the expectation, then use the factor $\frac{\nabla p(x|\theta)}{p(x|\theta)}$ to subsitute the logarithm in. The final expression is expectation $f(x) \nabla_{\theta } log(p(x|\theta))$
-	- **What is the relation to importance sampling?**
-		- I'm convinced there is, the same multiply/divide trick is used
-	- Key question: _How to shift $\theta$ to increase score of episode-samples, as gauged by score-function $f(.)$?_
-
-
+### 6.4 Sarsa: On-Policy TD
+Switch to learning `q_pi` action-value pairs.
+...
