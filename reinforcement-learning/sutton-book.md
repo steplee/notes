@@ -137,7 +137,7 @@ With an action function, the `max` is pushed into the expectation.
      - First off, they must all execute the same set of actions. (**Coverage**)
      - Many times `b` is stochastic but `pi` is deterministic.
   - **Importance sampling** is a technique to estimate expectations of one dist given samples of another. Use here by weighting returns to the relative probability of their trajectories occuring under the target and behavior policies, called the **importance-sampling ratio**.
-    - We form the probabilities of `P [ A_t, S_t+1, A_t+1, ..., S_T | S_t, A_t:T-1 ~ pi ]` by taking the product using the MDP transitions and policy.
+    - We form the probabilities of `P [ A_t, S_{t+1}, A_{t+1}, ..., S_T | S_t, A_t:T-1 ~ pi ]` by taking the product using the MDP transitions and policy.
     - We take the ratio of *two of these products*, the numerator using `pi`, the denominator using `b`. Something interesting happens: the factors from the MDP are common and thus cancel!
     - So the __ratio depends only on the policies and the sequence__, not the MDP.
     - To estimate `v_pi(s)` **scale returns by ratios, and average results** 
@@ -157,6 +157,8 @@ Off-policy depends on ordinary/weighted IS.
 TD methods are the best of DP & MC: they can update based on other learned estimates (DP) and they can learn from raw experience without a model (MC)
 
 ### 6.1 TD Prediction (Policy Eval)
+TD(0): $V (St) ← V (St) + α[R_{t+1} + γV (S_{t+1}) − V (S_t)]$
+
 Like MC, update estimate `V` for all states seen in an experience.
 MC waits for a return to use as a target in the update. TD updates immediately after acting, with a target $R_{t+1} + \rho*V(S_{t+1})$ (this is TD(0)). It *bootstraps* like DP.
 _MC assumes uncertaintity in the return, DP in the current policy_. **TD assumes uncertaintity in both.**
@@ -164,8 +166,23 @@ The **TD error** is the target minus the current estimate, which is multiplied b
 
 TD is like updating while the episode is in progress, MC can only do after the final reward is observed and episode over. The waiting in traffic example: you must change your estimate of how long it takes to get to work depending on traffic conditions (TD), you don't need to wait until you finally get there (MC).
 
+### 6.3 TD Optimality
 TD tends to learn faster then MC, both are sound mathematically.
+Batch TD __gets better answer__ then MC, even though they both converge.
+The 2-state Markov process example where A -> (0,B) -> V(3/4) shows how MC & TD differ.
+  - MC assigns V(A) = 0 since the next state has reward 0
+  - TD assigns V(A) = V(B) since A -> B.
+  - MSE on the data is consistent with MC, *but in reality we expect TD to do better*.
 
 ### 6.4 Sarsa: On-Policy TD
-Switch to learning `q_pi` action-value pairs.
-...
+Switch to learning `q_pi` action-value pairs. GPI but with TD updates.
+$Q(S_t, A_t) ← Q(S_t, A_t) + α[R_{t+1} + γQ(S_{t+1}, A_{t+1}) − Q(S_t, A_t)]$
+(Algorithm on page 106)
+
+### 6.5 Q-Learning: Off-Policy TD
+$Q(S_t, A_t) ← Q(S_t, A_t) + α[R_{t+1} + γ max_a Q(S_{t+1}, a) − Q(S_t, A_t)]$
+Q-Learning directly approximates `q*`  with `Q`, **independent of behavior policy**.
+This means we can sample actions any way we like to encourage exploration (usually epsilon-greedy)
+The 'cliff walking' example demonstrates Sarsa v Q-learning. Because of epsilon-greedy changing Q-learning learns slower since it samples bad actions. If epsilon were decayed, it would converge to Sarsa's performance.
+
+### 6.6 Expected Sarsa
