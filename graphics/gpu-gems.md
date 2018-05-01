@@ -15,7 +15,7 @@
 
 Can't use LUTs for games, we don't know consumer's monitor and applications would mismatch (why?)
 
-> All modern GPUs support sRGB texture formats. These formats allow binding gamma-corrected pixel data directly as a texture with proper gamma applied by the hardware before the results of texture fetches are used for shading. 
+> All modern GPUs support sRGB texture formats. These formats allow binding gamma-corrected pixel data directly as a texture with proper gamma applied by the hardware before the results of texture fetches are used for shading.
 > Texture lookups can apply inverse gamma correction so that the rest of your shader is working with linear values. However, using an sRGB texture is faster, allows proper linear texture filtering (GeForce 8 and later), and requires no extra shader code.
 > The last step before display is to gamma-correct the final pixel values so that when they're displayed on a monitor with nonlinear response, the image looks "correct." Specifying an sRGB frame buffer leaves the correction to the GPU, and no changes to shaders are required. Any value returned in the shader is gamma-corrected before storage in the frame buffer (or render-to-texture buffer). Furthermore, on GeForce 8-class and later hardware, if blending is enabled, the previously stored value is converted back to linear before blending and the result of the blend is gamma-corrected. Alpha values are not gamma-corrected when sRGB buffers are enabled. If sRGB buffers are not available, you can use the more costly solution of custom shader code, as shown in Listing 24-2; however, any blending, if enabled, will be computed incorrectly.
 

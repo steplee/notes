@@ -97,8 +97,8 @@ The __manner of articulation__ is also important, ie. a complete/partial/length 
   - Nasal sounds lower velum and force air into nasal cavity
   - *Fricatives* constrict air but allow passage to make a turbulent 'hissing' sound.
   - *Sibilants* are high-pitched fricatives.
-  - *Affricates* are __stops followed immediately by fricatives__ (eg. [ch] in 'chicken')
-  - *Approximants* are less turbulent then fricatvies ([y] in yellow)
+  - *Affricatives* are __stops followed immediately by fricatives__ (eg. [ch] in 'chicken')
+  - *Approximants* are less turbulent then fricatives ([y] in yellow)
   - *Tap/Flap* is a quick motion of tongue to the roof of mouth
 
 ##### Vowels 
@@ -107,7 +107,7 @@ Important parameters are:
   - Height (height of highest point of tongue)
   - Front/Backness (highest point of tongue)
   - Roundness (shape of lips)
-A *dipthoing* is a vowel that has the tongue move forward or backward during articulation (important in English).
+A *dipthong* is a vowel that has the tongue move forward or backward during articulation (important in English).
 
 #### Syllables
 Combination of vowels and consontants. No standard definition.
@@ -125,17 +125,17 @@ __Prominence__, the accentation, stressing, weakening of vowels, etc., is actual
 ### Phonological Variation
 > The [t] of tunafish is aspirated. __Aspiration__ is a period of voicelessness after a stop closure and before the onset of voicing of the following vowel. Since the vocal cords are not vibrating, aspiration sounds like a puff of air after the [t] and before the vowel. By contrast, a Unaspirated [t] following an initial [s] is unaspirated; thus the [t] in starfish ([s t aa r f ih sh]) has no period of voicelessness after the [t] closure
 
-Deal with the incredible variation of speech by assuming speakers focus on abstrct categories, not details.
-**Phoneme**: simplest abstract class. (denoted `/xxx/`)
-**Allophone**: the actual realizations of phonemes, with variance.
-**Reduction/Hypoarticulation**: when a native speaker blurs sounds.
-**Coarticulation**: changing articulators (vocal folds) in anticipation of next sounds.
+Deal with the incredible variation of speech by assuming speakers focus on abstract categories, not details.
+ - **Phoneme**: simplest abstract class. (denoted `/xxx/`)
+ - **Allophone**: the actual realizations of phonemes, with variance.
+ - **Reduction/Hypoarticulation**: when a native speaker blurs sounds.
+ - **Coarticulation**: changing articulators (vocal folds) in anticipation of next sounds.
 It is useful to label sounds with **distinctive features** which are binary variables that help infer intent/feeling/etc. Denoted eg. `[+dorsal]`
 Can try to model variation with phonological rules (Chomsky), but misses a lot.
 Speakers delete sounds more when the following word is predictable!
 
 ### Acoustics
-Clearly, ampltitutde represents air pressure, 'loudness' is less easy :)
+Clearly, ampliitude represents air pressure, 'loudness' is less easy :)
 The frequency of a sound comes from the speed of vibration of vocal folds, and is the fundamental frequence ($F_0$). A pitch-track graph plots the $F_0$ over time. You also want to look at signal power (mean-square) over a window.
 pitch ~ frequency, loudness ~ power.
 Extracting pitch is not trivial however, usually do an autocorr.
@@ -164,7 +164,7 @@ An entity is anything that can referred to with a proper name, though usually ap
 #### Practical Considerations
 Typical systems make multiple passes to build rules, as well as hand-written rules.
 A single pass may carry out the following steps:
-  1. Use high-preceision rules to tag unambiguous entities.
+  1. Use high-precision rules to tag unambiguous entities.
   2. Search substring matches of previous names
   3. Consult tables/lists (given) to identify likely entity mentions
   4. Apply probablistic sequence labelling to use tags from previous stages as additional features.
@@ -174,7 +174,7 @@ This does a number of things, including allowing shortened names (mentioned afte
 Model things such as `part-of`, `disrupts`, `causes`, `location-of`, etc.
   - Can do by regex or parsing pretty effectively, but with low recall.
   - Supervised works better, but must label a corpus AND fix classes of entities. First NER is done, then classifiers are run pairwise to determine which entities are related, then another classifier is used to determine which entity. An advanced classifier may use **syntactic paths**, running the classifier on the sequence of nodes from one word to another in the parsed tree.
-  - Semi-supervised by having a few high-precision *seed patterns* or *seed tuples* allow bootstrapping by finding all sentecnes that contain the entities and __extracting and generalizing the context around them to learn new patterns__. We would find the pair of entities, capture all perhaps interior words, punctuation, adpositions, etc. and search for these structures to find __other__ entities. We can even prevent __semantic drift__ by assigning confidence values. We can use the confidence measures, `hits` and `finds`, to assess evidence of new tuple/relations and use the **noisy-or** model to accept/reject them.
+  - Semi-supervised by having a few high-precision *seed patterns* or *seed tuples* allow bootstrapping by finding all sentences that contain the entities and __extracting and generalizing the context around them to learn new patterns__. We would find the pair of entities, capture all perhaps interior words, punctuation, adpositions, etc. and search for these structures to find __other__ entities. We can even prevent __semantic drift__ by assigning confidence values. We can use the confidence measures, `hits` and `finds`, to assess evidence of new tuple/relations and use the **noisy-or** model to accept/reject them.
     - In noisy-or, for a tuple to be false, *all* of its supporting patterns must have been in error AND the sources of their individual failures are independent. So the probability that *all* of them are wrong is $1\ -\ \prod{confidence(p_i)}$
 
   - Distant Supervision: TODO
@@ -228,5 +228,4 @@ Paraphrase corpi are useful for aligning questions.
   - focus should co-refer with answer, it will help filter passages.
   - deepqa does less filtering then you may expect and relies on ranking and computing power.
 2. ... todo
-
 
